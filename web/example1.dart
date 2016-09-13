@@ -31,8 +31,8 @@ class _Example1 extends Component {
   }
 
   render() =>
-      div({}, [
+      div({},
         span({}, "Example1"),
         reactDataGrid(columns: columns, rowGetter: rowGetter, rowsCount: rows.length, minHeight: 500)
-      ]);
+      );
 }

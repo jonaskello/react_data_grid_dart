@@ -24,7 +24,7 @@ class App extends Component {
 
   var rows;
 
-  getInitialState() => {'exampleNo': 1};
+  getInitialState() => {'exampleNo': 2};
 
   int get exampleNo => this.state['exampleNo'];
 
@@ -38,17 +38,16 @@ class App extends Component {
   }
 
   render() =>
-      div({}, [
-        h1({"key": "header"}, "React Data Grid in Dart Example"),
-//        span({"key": "span"}, this.state['exampleNo'].toString()),
-        button({"key": "button1", "onClick": (SyntheticMouseEvent e) => _changeExample(1)}, "Example1"),
-        button({"key": "button2", "onClick": (SyntheticMouseEvent e) => _changeExample(2)}, "Example2"),
-        this.exampleNo == 1 ? example1({"key": "example1"}) : example2({"key": "example2"})
-      ]);
+      div({},
+        h1({}, "React Data Grid in Dart Example"),
+//        span({}, this.state['exampleNo'].toString()),
+        button({"onClick": (SyntheticMouseEvent e) => _changeExample(1)}, "Example1"),
+        button({"onClick": (SyntheticMouseEvent e) => _changeExample(2)}, "Example2"),
+        this.exampleNo == 1 ? example1({}) : example2({})
+      );
 
   _changeExample(int exampleNo) {
     this.setState({"exampleNo": exampleNo});
-    print(this.state);
   }
 
 }

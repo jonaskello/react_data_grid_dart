@@ -81,13 +81,11 @@ class _Example2 extends Component {
 
   rowGetter(rowIdx) => this.state['rows'][rowIdx];
 
-  _handleRowUpdated(e) {
+  _handleRowUpdated(RowUpdateEvent e) {
     //merge updated row with current row and rerender by setting state
-    //var rows = this.state['rows'];
-    print(e);
-    throw new Exception("TODO!");
-    //Object.assign(rows[e.rowIdx], e.updated);
-    //this.setState({'rows':rows});
+    final rows = this.state['rows'];
+    rows[e.rowIdx].addAll(e.updated);
+    this.setState({'rows':rows});
   }
 
 render() =>

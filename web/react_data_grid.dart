@@ -2,6 +2,8 @@
 library react_data_grid;
 
 import 'dart:js_util';
+import 'dart:js';
+import 'dart:convert';
 import "package:js/js.dart";
 import 'package:react/react.dart';
 import 'package:react/react_client/react_interop.dart' as react_interop;
@@ -9,7 +11,8 @@ import 'package:react/react_client/react_interop.dart' as react_interop;
 // -- Dart wrapper definitions
 
 typedef RowGetterType(rowIndex);
-typedef OnRowUpdatedType(e);
+
+typedef OnRowUpdatedType(RowUpdateEvent e);
 
 typedef ReactDataGridType({List<
     ReactDataGridColumn> columns, RowGetterType rowGetter, int rowsCount, int minHeight, bool enableCellSelect,
@@ -37,13 +40,43 @@ class _ReactDataGrid extends Component {
   get onRowUpdated => props['onRowUpdated'];
 
   render() =>
-      div({}, _reactDataGridFactoryJs(new ReactDataGridJsProps(
+      div({}, _reactDataGridFactoryJs(new _ReactDataGridJsProps(
           columns: columns,
           rowGetter: allowInterop((i) => jsify(rowGetter(i))),
           rowsCount: rowsCount,
-          minHeight: minHeight)));
+          minHeight: minHeight,
+          enableCellSelect: enableCellSelect,
+          onRowUpdated: allowInterop(_onRowUpdatedProxyFactory(onRowUpdated)))));
+
 
 }
+
+_onRowUpdatedProxyFactory(OnRowUpdatedType onRowUpdated) {
+  return (dynamic e) {
+    // Convert javascript object to a Dart Map
+    Map e2 = _JsObjectToDartMap(e);
+    onRowUpdated(new RowUpdateEvent(e2['rowIdx'], e2['updated'], e2['cellKey'], e2['key']));
+  };
+}
+
+@JS("JSON.stringify")
+external String stringify(obj);
+
+Map<String, Object> _JsObjectToDartMap(arg) {
+  String json = stringify(arg);
+  return JSON.decode(json);
+}
+
+class RowUpdateEvent {
+  final int rowIdx;
+  final Map updated;
+  final String cellKey;
+  final String keyCode;
+
+  RowUpdateEvent(this.rowIdx, this.updated, this.cellKey, this.keyCode);
+
+}
+
 
 // -- JS Interop definitions
 
@@ -51,9 +84,10 @@ external dynamic get ReactDataGrid;
 
 final _reactDataGridFactoryJs = react_interop.React.createFactory(ReactDataGrid);
 
+
 @JS()
 @anonymous
-class ReactDataGridJsProps {
+class _ReactDataGridJsProps {
   external List<ReactDataGridColumn> get columns;
 
   external dynamic get rowGetter;
@@ -62,7 +96,10 @@ class ReactDataGridJsProps {
 
   external int get minHeight;
 
-  external factory ReactDataGridJsProps({List columns, dynamic rowGetter, int rowsCount, int minHeight});
+  external factory _ReactDataGridJsProps({
+  List columns, dynamic rowGetter, int rowsCount, int minHeight,
+  bool enableCellSelect,
+  dynamic onRowUpdated});
 }
 
 @JS()

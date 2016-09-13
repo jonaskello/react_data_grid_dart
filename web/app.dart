@@ -2,6 +2,8 @@ library app;
 
 import 'package:react/react.dart';
 import 'react_data_grid.dart';
+import 'example1.dart';
+import 'example2.dart';
 
 typedef AppType();
 
@@ -18,9 +20,13 @@ class App extends Component {
   )
   ];
 
-  rowGetter (rowIndex) => rows[rowIndex];
+  rowGetter(rowIndex) => rows[rowIndex];
 
   var rows;
+
+  getInitialState() => {'exampleNo': 1};
+
+  int get exampleNo => this.state['exampleNo'];
 
   App() {
     rows = [];
@@ -33,8 +39,16 @@ class App extends Component {
 
   render() =>
       div({}, [
-        h1({}, "React Data Grid in Dart Example"),
-        span({}, "This is an example"),
-        reactDataGrid(columns: columns, rowGetter: rowGetter, rowsCount: rows.length, minHeight: 500)
+        h1({"key": "header"}, "React Data Grid in Dart Example"),
+//        span({"key": "span"}, this.state['exampleNo'].toString()),
+        button({"key": "button1", "onClick": (SyntheticMouseEvent e) => _changeExample(1)}, "Example1"),
+        button({"key": "button2", "onClick": (SyntheticMouseEvent e) => _changeExample(2)}, "Example2"),
+        this.exampleNo == 1 ? example1({"key": "example1"}) : example2({"key": "example2"})
       ]);
+
+  _changeExample(int exampleNo) {
+    this.setState({"exampleNo": exampleNo});
+    print(this.state);
+  }
+
 }

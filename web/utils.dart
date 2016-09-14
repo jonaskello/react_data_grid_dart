@@ -11,11 +11,11 @@ randomDate(DateTime start, DateTime end) {
 }
 
 //helper to create a fixed number of rows
-createRows(numberOfRows) {
+List<Map<String, Object>> createRows(int numberOfRows) {
   final random = new Math.Random();
-  var _rows = [];
+  var rows = [];
   for (int i = 1; i < numberOfRows; i++) {
-    _rows.add({
+    rows.add({
       'id': i,
       'task': 'Task ' + i.toString(),
       'complete': Math.min(100, (random.nextDouble() * 110).round()),
@@ -25,5 +25,5 @@ createRows(numberOfRows) {
       'completeDate': randomDate(new DateTime.now(), new DateTime(2016, 0, 1))
     });
   }
-  return _rows;
+  return rows;
 }

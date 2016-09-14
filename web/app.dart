@@ -4,6 +4,7 @@ import 'package:react/react.dart';
 import 'react_data_grid.dart';
 import 'example1.dart';
 import 'example2.dart';
+import 'example3.dart';
 
 typedef AppType();
 
@@ -24,7 +25,7 @@ class App extends Component {
 
   var rows;
 
-  getInitialState() => {'example': examples[0]};
+  getInitialState() => {'example': examples[2]};
 
   Example get example => this.state['example'];
 
@@ -40,7 +41,8 @@ class App extends Component {
   var examples = [
     new Example("Basic Example", "http://adazzle.github.io/react-data-grid/examples.html#/basic", example1),
     new Example(
-        "Editable Example", "http://adazzle.github.io/react-data-grid/examples.html#/editable", example2)
+        "Editable Example", "http://adazzle.github.io/react-data-grid/examples.html#/editable", example2),
+    new Example("Sortable Columns Example", "http://adazzle.github.io/react-data-grid/examples.html#/sortable-cols", example3)
   ];
 
   render() =>

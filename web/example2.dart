@@ -15,7 +15,9 @@ class _Example2 extends Component {
   //helper to generate a random date
   _randomDate(DateTime start, DateTime end) {
     final random = new Math.Random();
-    return new DateTime.fromMillisecondsSinceEpoch(start.millisecondsSinceEpoch + (random.nextDouble() * (end.millisecondsSinceEpoch - start.millisecondsSinceEpoch)).round()).toString();
+    return new DateTime.fromMillisecondsSinceEpoch(start.millisecondsSinceEpoch +
+        (random.nextDouble() * (end.millisecondsSinceEpoch - start.millisecondsSinceEpoch)).round())
+        .toString();
   }
 
   //helper to create a fixed number of rows
@@ -88,15 +90,14 @@ class _Example2 extends Component {
     this.setState({'rows':rows});
   }
 
-render() =>
+  render() =>
       div({},
-        span({}, "Example2"),
-        reactDataGrid(
-            enableCellSelect: true,
-            columns: columns,
-            rowGetter: rowGetter,
-            rowsCount: this.state['rows'].length,
-            minHeight: 500,
-            onRowUpdated: _handleRowUpdated)
+          reactDataGrid(
+              enableCellSelect: true,
+              columns: columns,
+              rowGetter: rowGetter,
+              rowsCount: this.state['rows'].length,
+              minHeight: 500,
+              onRowUpdated: _handleRowUpdated)
       );
 }

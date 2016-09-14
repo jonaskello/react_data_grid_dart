@@ -38,22 +38,21 @@ class App extends Component {
   }
 
   var examples = [
-    new Example("Basic", "", example1),
+    new Example("Basic Example", "http://adazzle.github.io/react-data-grid/examples.html#/basic", example1),
     new Example(
-        "Editable", "http://adazzle.github.io/react-data-grid/examples.html#/editable", example2)
+        "Editable Example", "http://adazzle.github.io/react-data-grid/examples.html#/editable", example2)
   ];
 
   render() =>
       div({},
-          h1({"style": {"margin": 20}}, "React Data Grid in Dart Example"),
+          h1({"style": {"margin": 20}}, "React Data Grid in Dart Examples"),
           hr({"style": {"margin": 20}}),
-//        span({}, this.state['exampleNo'].toString()),
           div({}, examples.map((example) =>
               span({"style": {"margin": 20}},
                   button({"onClick": (SyntheticMouseEvent e) => _changeExample(example)}, example.title),
                   ))),
-      h3({"style": {"margin": 20}},
-            a({"href": this.example.url}, this.example.title)),
+          h3({"style": {"margin": 20}},
+              a({"href": this.example.url}, this.example.title)),
           div({"style": {"margin": 20}},
               this.example.component())
       );

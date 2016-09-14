@@ -1,16 +1,16 @@
-library example2;
+library example3;
 
 import 'package:react/react.dart';
 import 'react_data_grid.dart';
 import 'utils.dart' as utils;
 
-typedef Example2Type();
+typedef Example3Type();
 
-var _example2 = registerComponent(() => new _Example2());
+var _example3 = registerComponent(() => new _Example3());
 
-Example2Type example2 = () => _example2({});
+Example3Type example3 = () => _example3();
 
-class _Example2 extends Component {
+class _Example3 extends Component {
 
   getInitialState() {
     return {'rows' : utils.createRows(1000)};
@@ -37,11 +37,11 @@ class _Example2 extends Component {
   }
 
   render() =>
-      reactDataGrid(
-          enableCellSelect: true,
-          columns: columns,
-          rowGetter: rowGetter,
-          rowsCount: this.state['rows'].length,
-          minHeight: 400,
-          onRowUpdated: _handleRowUpdated);
+          reactDataGrid(
+              enableCellSelect: true,
+              columns: columns,
+              rowGetter: rowGetter,
+              rowsCount: this.state['rows'].length,
+              minHeight: 400,
+              onRowUpdated: _handleRowUpdated);
 }

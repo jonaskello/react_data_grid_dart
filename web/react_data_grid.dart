@@ -17,14 +17,14 @@ typedef OnRowUpdatedType(RowUpdateEvent e);
 typedef OnGridSortType(String sortColumn, String sortDirection);
 
 typedef ReactDataGridType({
-num rowHeight, // isRequired,
-num headerRowHeight,
-num minHeight, // isRequired,
-num minWidth,
-dynamic enableRowSelect, // oneOfType(bool, string),
+int rowHeight, // isRequired,
+int headerRowHeight,
+int minHeight, // isRequired,
+int minWidth,
+bool enableRowSelect, // oneOfType(bool, string),
 OnRowUpdatedType onRowUpdated,
 RowGetterType rowGetter, // isRequired,
-num rowsCount, // isRequired,
+int rowsCount, // isRequired,
 dynamic toolbar, //: React.PropTypes.element,
 bool enableCellSelect,
 List<ReactDataGridColumn> columns, // oneOfType([object, array]).isRequired,
@@ -40,7 +40,7 @@ String rowKey,
 num rowScrollTimeout,
 Function onClearFilters,
 dynamic contextMenu, // React.PropTypes.element,
-dynamic cellNavigationMode, //oneOf(['none', 'loopOverRow', 'changeRow']),
+String cellNavigationMode, //oneOf(['none', 'loopOverRow', 'changeRow']),
 Function onCellSelected,
 Function onCellDeSelected,
 Function onCellExpand,
@@ -98,72 +98,101 @@ rowGroupRenderer,
 rowActionsCell
 }) =>
     _reactDataGrid({
-    'rowHeight': rowHeight,
-    'headerRowHeight': headerRowHeight,
-    'minHeight': minHeight,
-    'minWidth': minWidth,
-    'enableRowSelect': enableRowSelect,
-    'onRowUpdated': onRowUpdated,
-    'rowGetter': rowGetter,
-    'rowsCount': rowsCount,
-    'toolbar': toolbar,
-    'enableCellSelect': enableCellSelect,
-    'columns': columns,
-    'onFilter': onFilter,
-    'onCellCopyPaste': onCellCopyPaste,
-    'onCellsDragged': onCellsDragged,
-    'onAddFilter': onAddFilter,
-    'onGridSort': onGridSort,
-    'onDragHandleDoubleClick': onDragHandleDoubleClick,
-    'onGridRowsUpdated': onGridRowsUpdated,
-    'onRowSelect': onRowSelect,
-    'rowKey': rowKey,
-    'rowScrollTimeout': rowScrollTimeout,
-    'onClearFilters': onClearFilters,
-    'contextMenu': contextMenu,
-    'cellNavigationMode': cellNavigationMode,
-    'onCellSelected': onCellSelected,
-    'onCellDeSelected': onCellDeSelected,
-    'onCellExpand': onCellExpand,
-    'enableDragAndDrop': enableDragAndDrop,
-    'onRowExpandToggle': onRowExpandToggle,
-    'draggableHeaderCell': draggableHeaderCell,
-    'getValidFilterValues': getValidFilterValues,
-    'rowSelection': rowSelection,
-    'onRowClick': onRowClick,
-    'onGridKeyUp': onGridKeyUp,
-    'onGridKeyDown': onGridKeyDown,
-    'rowGroupRenderer': rowGroupRenderer,
-    'rowActionsCel': rowActionsCell
+      'rowHeight': rowHeight,
+      'headerRowHeight': headerRowHeight,
+      'minHeight': minHeight,
+      'minWidth': minWidth,
+      'enableRowSelect': enableRowSelect,
+      'onRowUpdated': onRowUpdated,
+      'rowGetter': rowGetter,
+      'rowsCount': rowsCount,
+      'toolbar': toolbar,
+      'enableCellSelect': enableCellSelect,
+      'columns': columns,
+      'onFilter': onFilter,
+      'onCellCopyPaste': onCellCopyPaste,
+      'onCellsDragged': onCellsDragged,
+      'onAddFilter': onAddFilter,
+      'onGridSort': onGridSort,
+      'onDragHandleDoubleClick': onDragHandleDoubleClick,
+      'onGridRowsUpdated': onGridRowsUpdated,
+      'onRowSelect': onRowSelect,
+      'rowKey': rowKey,
+      'rowScrollTimeout': rowScrollTimeout,
+      'onClearFilters': onClearFilters,
+      'contextMenu': contextMenu,
+      'cellNavigationMode': cellNavigationMode,
+      'onCellSelected': onCellSelected,
+      'onCellDeSelected': onCellDeSelected,
+      'onCellExpand': onCellExpand,
+      'enableDragAndDrop': enableDragAndDrop,
+      'onRowExpandToggle': onRowExpandToggle,
+      'draggableHeaderCell': draggableHeaderCell,
+      'getValidFilterValues': getValidFilterValues,
+      'rowSelection': rowSelection,
+      'onRowClick': onRowClick,
+      'onGridKeyUp': onGridKeyUp,
+      'onGridKeyDown': onGridKeyDown,
+      'rowGroupRenderer': rowGroupRenderer,
+      'rowActionsCell': rowActionsCell
     });
 
 class _ReactDataGrid extends Component {
 
-  get columns => props['columns'];
-
-  get rowGetter => props['rowGetter'];
-
-  get rowsCount => props['rowsCount'];
-
-  get minHeight => props['minHeight'];
-
-  get enableCellSelect => props['enableCellSelect'];
-
-  get onRowUpdated => props['onRowUpdated'];
-
-  get onGridSort => props['onGridSort'];
+//  Map getDefaultProps() =>
+//      {
+//        'enableCellSelect': false,
+//        'tabIndex': -1,
+//        'rowHeight': 35,
+//        'enableRowSelect': false,
+//        'minHeight': 350,
+//        'rowKey': 'id',
+//        'rowScrollTimeout': 0,
+//        'cellNavigationMode': 'none'
+//      };
 
   render() {
-    var props = new _ReactDataGridJsProps(
-        columns: columns,
-        rowGetter: allowInterop((i) => jsify(rowGetter(i))),
-        rowsCount: rowsCount,
-        minHeight: minHeight,
-        enableCellSelect: enableCellSelect,
-        onRowUpdated: allowInterop(_onRowUpdatedProxyFactory(onRowUpdated)),
-        onGridSort: allowInterop(onGridSort));
+    var jsProps = new _ReactDataGridJsProps(
+        rowHeight: props['rowHeight'] ?? 35,
+        headerRowHeight: props['headerRowHeight'],
+        minHeight: props['minHeight'],
+        minWidth: props['minWidth'],
+        enableRowSelect: props['enableRowSelect'],
+        onRowUpdated: allowInterop(_onRowUpdatedProxyFactory(props['onRowUpdated'])),
+        rowGetter: allowInterop((i) => jsify(props['rowGetter'](i))),
+        rowsCount: props['rowsCount'],
+        toolbar: props['toolbar'],
+        enableCellSelect: props['enableCellSelect'],
+        columns: props['columns'],
+        onFilter: props['onFilter'],
+        onCellCopyPaste: props['onCellCopyPaste'],
+        onCellsDragged: props['onCellsDragged'],
+        onAddFilter: props['onAddFilter'],
+        onGridSort: allowInterop(props['onGridSort']),
+        onDragHandleDoubleClick: props['onDragHandleDoubleClick'],
+        onGridRowsUpdated: props['onGridRowsUpdated'],
+        onRowSelect: props['onRowSelect'],
+        rowKey: props['rowKey'],
+        rowScrollTimeout: props['rowScrollTimeout'],
+        onClearFilters: props['onClearFilters'],
+        contextMenu: props['contextMenu'],
+        cellNavigationMode: props['cellNavigationMode'],
+        onCellSelected: props['onCellSelected'],
+        onCellDeSelected: props['onCellDeSelected'],
+        onCellExpand: props['onCellExpand'],
+        enableDragAndDrop: props['enableDragAndDrop'],
+        onRowExpandToggle: props['onRowExpandToggle'],
+        draggableHeaderCell: props['draggableHeaderCell'],
+        getValidFilterValues: props['getValidFilterValues'],
+        rowSelection: props['rowSelection'],
+        onRowClick: props['onRowClick'],
+        onGridKeyUp: props['onGridKeyUp'],
+        onGridKeyDown: props['onGridKeyDown'],
+        rowGroupRenderer: props['rowGroupRenderer'],
+        rowActionsCell: props['rowActionsCell']
+    );
 
-    return _reactDataGridFactoryJs(props);
+    return _reactDataGridFactoryJs(jsProps);
   }
 }
 

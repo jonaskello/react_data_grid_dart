@@ -37,7 +37,6 @@ class _Example3 extends Component {
   List get rows => this.state['rows'];
 
   _handleGridSort(String sortColumn, String sortDirection) {
-
     var comparer = (Map<String, Object> a, Map<String, Object> b) {
       if (sortDirection == 'ASC') {
         return (a[sortColumn].toString().compareTo(b[sortColumn].toString()) > 0) ? 1 : -1;
@@ -62,16 +61,4 @@ class _Example3 extends Component {
           rowGetter: rowGetter,
           rowsCount: this.rows.length,
           minHeight: 400);
-
 }
-
-/*
-
-<ReactDataGrid
-        onGridSort={this.handleGridSort}
-        columns={columns}
-        rowGetter={this.rowGetter}
-        rowsCount={this.state.rows.length}
-        minHeight={500}
-        onRowUpdated={this.handleRowUpdated} />
- */

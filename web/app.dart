@@ -1,10 +1,10 @@
 library app;
 
 import 'package:react/react.dart';
-import 'react_data_grid.dart';
 import 'example1.dart';
 import 'example2.dart';
 import 'example3.dart';
+import 'custom_formatter_example.dart' as custom_formattter;
 
 typedef AppType();
 
@@ -15,34 +15,20 @@ AppType app = () =>
 
 class App extends Component {
 
-  final columns = [ new ReactDataGridColumn(
-      key: 'title',
-      name: 'Title'
-  )
-  ];
-
-  rowGetter(rowIndex) => rows[rowIndex];
-
-  var rows;
-
-  getInitialState() => {'example': examples[2]};
+  getInitialState() => {'example': examples[3]};
 
   Example get example => this.state['example'];
-
-  App() {
-    rows = [];
-    for (var i = 1; i < 1000; i++) {
-      rows.add({
-        'title': 'Title ' + i.toString(),
-      });
-    }
-  }
 
   var examples = [
     new Example("Basic Example", "http://adazzle.github.io/react-data-grid/examples.html#/basic", example1),
     new Example(
         "Editable Example", "http://adazzle.github.io/react-data-grid/examples.html#/editable", example2),
-    new Example("Sortable Columns Example", "http://adazzle.github.io/react-data-grid/examples.html#/sortable-cols", example3)
+    new Example(
+        "Sortable Columns Example", "http://adazzle.github.io/react-data-grid/examples.html#/sortable-cols",
+        example3),
+    new Example("Custom Formatter Example",
+        "http://adazzle.github.io/react-data-grid/examples.html#/custom-formatters",
+        custom_formattter.example)
   ];
 
   render() =>

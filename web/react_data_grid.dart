@@ -310,6 +310,8 @@ class ReactDataGridColumn {
 
   external bool get sortable;
 
-  external factory ReactDataGridColumn({String key, String name, int width, bool editable, bool sortable});
+  external dynamic get formatter;
+
+  external factory ReactDataGridColumn({String key, String name, int width, bool editable, bool sortable, dynamic formatter});
 }
 
